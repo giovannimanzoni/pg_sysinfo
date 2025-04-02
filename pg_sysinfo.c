@@ -246,7 +246,9 @@ Datum sysinfo_disk(PG_FUNCTION_ARGS)
         }
         fclose(mtabFile);
     }
+	#if PG_VERSION_NUM < 110000  // For PostgreSQL < 11
 	tuplestore_donestoring(tupstore);
+	#endif
     /* Switch back to the original context before returning */
     MemoryContextSwitchTo(oldcontext);
 
@@ -297,7 +299,10 @@ sysinfo_cpu_usage(PG_FUNCTION_ARGS)
     values[2] = Float8GetDatumFast(total_time);
 	tuplestore_putvalues(tupstore, tupdesc, values, nulls);
 	
+	#if PG_VERSION_NUM < 110000  // For PostgreSQL < 11
 	tuplestore_donestoring(tupstore);
+	#endif
+
 	MemoryContextSwitchTo(oldcontext);
 
 	return (Datum) 0; 
@@ -385,7 +390,10 @@ sysinfo_cpu(PG_FUNCTION_ARGS)
     values[2] = Int32GetDatum(ncores);
 	tuplestore_putvalues(tupstore, tupdesc, values, nulls);
 	
+	#if PG_VERSION_NUM < 110000  // For PostgreSQL < 11
 	tuplestore_donestoring(tupstore);
+	#endif
+
 	MemoryContextSwitchTo(oldcontext);
 
 	return (Datum) 0; 
