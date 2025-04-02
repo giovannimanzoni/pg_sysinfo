@@ -2,7 +2,40 @@
 
 pg_sysinfo is a PostgreSQL extension that provides a set of views to retrieve system information on a *nix system, including CPU, RAM, and Disk usage, as well as OS details. This extension is useful for monitoring and managing PostgreSQL server resources.
 
+## Prerequisites
+```bash
+apt update
+apt -y install postgresql-server-dev-17 build-essential
+```
 
+## Setup
+Download this repo, then:
+
+```bash
+cd pg_sysinfo
+make USE_PGXS=1
+make install
+```
+
+Update your shared_preload_libraries inside (for Debian) /etc/postgresql/17/main/postgresql.conf and add pg_sysinfo, so for example if you already use timescaledb, the line will be:
+```text
+shared_preload_libraries = 'timescaledb, pg_sysinfo'
+```
+Restart PostgreSQL server
+```bash
+systemctl restart postgresql
+```
+
+As superuser connect to the db and enable the extension in every db you need to use it
+```bash
+sudo -u postgres psql
+```
+```postgresql
+CREATE EXTENSION pg_sysinfo;
+\connect YOUR_SECOND_DB
+CREATE EXTENSION pg_sysinfo;
+exit
+```
 
 ## Usage
 
