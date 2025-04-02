@@ -32,7 +32,7 @@ sudo -u postgres psql
 ```
 ```postgresql
 CREATE EXTENSION pg_sysinfo;
-\connect YOUR_SECOND_DB
+\connect YOUR_SECOND_DB;
 CREATE EXTENSION pg_sysinfo;
 exit
 ```
